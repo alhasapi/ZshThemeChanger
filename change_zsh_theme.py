@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import os
 import sys
 
@@ -51,18 +53,21 @@ def show_theme_list():
     to_serial = transformer(themes)
     m_lambda = lambda x: ''.join(map(lambda q: " " * (max_size - len(q)) + q, x))
     serialized = map(m_lambda, to_serial)
-    return '\n'.join(serialized)
-            
+    print '\n'.join(serialized)
 
 def usage():
-    return "%s [theme-name] [-show-theme-list | --st]" %( sys.argv[0] )
+    print "%s [theme-name] [-show-theme-list | --st]" %( sys.argv[0] )
+
+def some(lst, args=[]):
+    return any(map(lambda s: s in lst, args))
+
 
 if __name__ == '__main__':
     if len(sys.argv) == 1:
         print usage()
-    elif '--st' in sys.argv or '-show-theme-list' in sys.argv:
-        print show_theme_list()
-    elif '--current-theme' in sys.argv or '--ct' in sys.argv:
+    elif some(sys.argv, ["--st", "-show_theme_list"]):
+        show_theme_list()
+    elif some(sys.argv, ['--current-theme','--ct']):
         print current_theme()
     else:
         theme = sys.argv[1]
