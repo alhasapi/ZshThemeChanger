@@ -29,6 +29,15 @@ def set_theme(theme_name):
         return True
     return False
 
+def current_theme():
+    zsh_config = user_config_path()
+    with open(zsh_config) as current_config:
+        data = current_config.read().split('\n')
+        theme = data[7].split('=')[-1]
+        transformer = lambda s: s if s not in [ "\"" ] else ""
+        return ''.join(map(transformer, theme))
+
+
 def show_theme_list():
     themes = themes_list()
     def transformer(items):
@@ -53,6 +62,8 @@ if __name__ == '__main__':
         print usage()
     elif '--st' in sys.argv or '-show-theme-list' in sys.argv:
         print show_theme_list()
+    elif '--current-theme' in sys.argv or '--ct' in sys.argv:
+        print current_theme()
     else:
         theme = sys.argv[1]
         if not set_theme(theme):
