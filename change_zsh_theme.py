@@ -2,6 +2,7 @@
 
 import os
 import sys
+import operator
 
 themes_path = "/home/moktar/.oh-my-zsh/themes/"
 zsh_config = "/%s/.zshrc"
@@ -37,7 +38,7 @@ def current_theme():
         data = current_config.read().split('\n')
         theme = data[7].split('=')[-1]
         transformer = lambda s: s if s not in [ "\"" ] else ""
-        return ''.join(map(transformer, theme))
+        return reduce(operator.add, map(transformer, theme))
 
 
 def show_theme_list():
